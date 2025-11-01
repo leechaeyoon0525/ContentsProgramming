@@ -10,7 +10,6 @@ public class PlayerController : MonoBehaviour
     
     private Rigidbody2D rb;
     private bool isGrounded = false;
-    private int score = 0;  // 점수 추가
     
     void Start()
     {
@@ -24,12 +23,12 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.A)) moveX = -1f;
         if (Input.GetKey(KeyCode.D)) moveX = 1f;
         
-        rb.velocity = new Vector2(moveX * moveSpeed, rb.velocity.y);
+        rb.linearVelocity = new Vector2(moveX * moveSpeed, rb.linearVelocity.y);
         
         // 점프 (지난 시간에 배운 내용)
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         }
     }
     
@@ -47,17 +46,6 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = false;
-        }
-    }
-    
-    // 아이템 수집 감지 (Trigger)
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Coin"))
-        {
-            score++;  // 점수 증가
-            Debug.Log("코인 획득! 현재 점수: " + score);
-            Destroy(other.gameObject);  // 코인 제거
         }
     }
 }
